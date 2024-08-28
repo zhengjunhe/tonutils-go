@@ -74,12 +74,16 @@ func TestJettonMasterClient_GetWalletAddress(t *testing.T) {
 }
 
 func TestJettonMasterClient_Mint(t *testing.T) {
-	tt, err := tlb.ToCell(MintPayload{})
+	tt, err := tlb.ToCell(MintPayload{
+		Amount:   tlb.MustFromTON("100"),
+		Receiver: address.MustParseAddr("EQBGhqLAZseEqRXz4ByFPTGV7SVMlI4hrbs-Sps_Xzx01x8G"),
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	println(tt.Dump())
+
 }
 
 func TestJettonMasterClient_Transfer(t *testing.T) {

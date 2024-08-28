@@ -13,6 +13,19 @@ import (
 	"github.com/xssnick/tonutils-go/tvm/cell"
 )
 
+type MintPayloadMasterMsg struct {
+	Opcode       uint32     `tlb:"## 32"`
+	QueryID      uint64     `tlb:"## 64"`
+	JettonAmount tlb.Coins  `tlb:"."`
+	RestData     *cell.Cell `tlb:"."`
+}
+
+type MintPayload struct {
+	_        tlb.Magic        `tlb:"#FC708BD2"`
+	Amount   tlb.Coins        `tlb:"."`
+	Receiver *address.Address `tlb:"addr"`
+}
+
 type TransferPayload struct {
 	_                   tlb.Magic        `tlb:"#0f8a7ea5"`
 	QueryID             uint64           `tlb:"## 64"`
@@ -110,6 +123,18 @@ func (c *WalletClient) BuildBurnPayload(amountCoins tlb.Coins, notifyAddr *addre
 		Amount:              amountCoins,
 		ResponseDestination: notifyAddr,
 		CustomPayload:       nil,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to convert BurnPayload to cell: %w", err)
+	}
+
+	return body, nil
+}
+
+func (c *WalletClient) BuildMintPayload(amountCoins tlb.Coins, toAddr *address.Address) (*cell.Cell, error) {
+	body, err := tlb.ToCell(MintPayload{
+		Amount:   amountCoins,
+		Receiver: toAddr,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to convert BurnPayload to cell: %w", err)

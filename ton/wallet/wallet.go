@@ -843,3 +843,39 @@ func SimpleMessageAutoBounce(to *address.Address, amount tlb.Coins, payload *cel
 		},
 	}
 }
+
+type T struct {
+	Name string `json:"name"`
+	Code string `json:"code"`
+	Abi  string `json:"abi"`
+	Init struct {
+		Kind string `json:"kind"`
+		Args []struct {
+			Name string `json:"name"`
+			Type struct {
+				Kind     string `json:"kind"`
+				Type     string `json:"type"`
+				Optional bool   `json:"optional"`
+				Format   int    `json:"format,omitempty"`
+			} `json:"type"`
+		} `json:"args"`
+		Prefix struct {
+			Bits  int `json:"bits"`
+			Value int `json:"value"`
+		} `json:"prefix"`
+		Deployment struct {
+			Kind   string `json:"kind"`
+			System string `json:"system"`
+		} `json:"deployment"`
+	} `json:"init"`
+	Sources struct {
+		SourcesJettonTact   string `json:"sources/jetton.tact"`
+		SourcesMessagesTact string `json:"sources/messages.tact"`
+		SourcesContractTact string `json:"sources/contract.tact"`
+	} `json:"sources"`
+	Compiler struct {
+		Name       string `json:"name"`
+		Version    string `json:"version"`
+		Parameters string `json:"parameters"`
+	} `json:"compiler"`
+}

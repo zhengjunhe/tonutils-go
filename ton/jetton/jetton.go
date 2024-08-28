@@ -22,21 +22,6 @@ type TonApi interface {
 
 var ErrInvalidTransfer = errors.New("transfer is not verified")
 
-type MintPayloadMasterMsg struct {
-	Opcode       uint32     `tlb:"## 32"`
-	QueryID      uint64     `tlb:"## 64"`
-	JettonAmount tlb.Coins  `tlb:"."`
-	RestData     *cell.Cell `tlb:"."`
-}
-
-type MintPayload struct {
-	_         tlb.Magic            `tlb:"#00000015"`
-	QueryID   uint64               `tlb:"## 64"`
-	ToAddress *address.Address     `tlb:"addr"`
-	Amount    tlb.Coins            `tlb:"."`
-	MasterMsg MintPayloadMasterMsg `tlb:"^"`
-}
-
 type TransferNotification struct {
 	_              tlb.Magic        `tlb:"#7362d09c"`
 	QueryID        uint64           `tlb:"## 64"`
